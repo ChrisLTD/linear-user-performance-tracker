@@ -15,7 +15,7 @@ Before you begin, ensure you have met the following requirements:
 Next, install the project's dependencies:
 
 ```
-yarn
+npm install
 ```
 
 Create a new file in the project's root directory named .env and add your Linear API key:
@@ -26,7 +26,7 @@ API_KEY=your-api-key
 
 Replace 'your-api-key' with your actual value.
 
-### Fetching Team and User IDs
+## Fetching Team and User IDs
 
 You can fetch your team's ID and user IDs by running the `get-ids.js` script. Use the following command:
 
@@ -45,7 +45,7 @@ USER_IDS=user-id-1,user-id-2,user-id-3
 
 Replace 'your-team-id', and 'user-id-1,user-id-2,user-id-3' with your actual values.
 
-### Running the Project
+## Running the Project
 
 To run the project, use the following command:
 ```
