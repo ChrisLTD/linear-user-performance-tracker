@@ -31,7 +31,7 @@ Replace 'your-api-key' with your actual value.
 You can fetch your team's ID and user IDs by running the `get-ids.js` script. Use the following command:
 
 ```
-npm run ids
+npm run get-ids
 ```
 
 This will print a list of your teams and users along with their IDs.
