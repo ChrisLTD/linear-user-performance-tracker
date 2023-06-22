@@ -18,7 +18,7 @@ userIds.forEach(async (userId) => {
     const query = `
         query {
             user (id: "${userId}") {
-                issues(states: [Completed], teamId: "${teamId}") {
+                assignedIssues {
                     nodes {
                         title
                         completedAt
@@ -37,7 +37,17 @@ userIds.forEach(async (userId) => {
 
     const result = await response.json();
 
-    const issues = result.data.user.issues.nodes;
+    if (result.errors) {
+        console.error(`Errors returned from the API: ${result.errors.map(e => e.message).join(', ')}`);
+        return;
+    }
+
+    if (!result.data.user) {
+        console.error(`No user data found. Check if provided user ID is correct.`);
+        return;
+    }
+
+    const issues = result.data.user.assignedIssues.nodes;
 
     issues.forEach((issue) => {
         const completedWeek = moment(issue.completedAt).format('YYYY-WW');

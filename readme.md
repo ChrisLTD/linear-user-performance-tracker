@@ -28,7 +28,7 @@ Replace 'your-api-key' with your actual value.
 
 ## Fetching Team and User IDs
 
-You can fetch your team's ID and user IDs by running the `get-ids.js` script. Use the following command:
+You can fetch your user IDs by running the `get-ids.js` script. Use the following command:
 
 ```
 npm run get-ids
@@ -36,14 +36,13 @@ npm run get-ids
 
 This will print a list of your teams and users along with their IDs.
 
-Add your chosen team ID and user IDs (separated by commas without spaces) to the .env file:
+Add your chosen user IDs (separated by commas without spaces) to the .env file:
 
 ```
-TEAM_ID=your-team-id
 USER_IDS=user-id-1,user-id-2,user-id-3
 ```
 
-Replace 'your-team-id', and 'user-id-1,user-id-2,user-id-3' with your actual values.
+Replace 'user-id-1,user-id-2,user-id-3' with your actual values.
 
 ## Running the Project
 
