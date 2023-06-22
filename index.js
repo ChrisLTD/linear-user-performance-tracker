@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const moment = require('moment');
 
 const apiKey = process.env.API_KEY;
-const teamId = process.env.TEAM_ID;
 const userIds = process.env.USER_IDS.split(','); // This will convert the comma-separated string into an array
 
 let data = [];
@@ -14,13 +13,27 @@ const headers = {
     'Authorization': 'Bearer ' + apiKey,
 };
 
+const date90daysAgo = new Date();
+date90daysAgo.setDate(date90daysAgo.getDate() - 90);
+const isoDate90daysAgo = date90daysAgo.toISOString();
+
 userIds.forEach(async (userId) => {
     const query = `
         query {
-            user (id: "${userId}") {
-                assignedIssues {
+            user (
+                id: "${userId}",
+            ) {
+                assignedIssues(
+                    filter: {
+                        completedAt: {gt: "${isoDate90daysAgo}"},
+                        estimate: {gt: 0}
+                    },
+                    first: 100,
+                    includeArchived: true,
+                    orderBy: updatedAt
+                ) {
                     nodes {
-                        title
+                        id
                         completedAt
                         estimate
                     }
