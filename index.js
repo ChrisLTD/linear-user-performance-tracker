@@ -73,8 +73,10 @@ async function fetchUserData(userId) {
 
 // Process each user's data sequentially to avoid request rate limits and avoid mixing up console output.
 async function processUsersSequentially(userIds) {
+    const userNames = {};
+
     for (const userId of userIds) {
-        await fetchUserData(userId);
+        await fetchUserData(userId, userNames);
     }
 
     // Create an object that is first grouped by Week, then User, summing the Estimates
@@ -104,6 +106,33 @@ async function processUsersSequentially(userIds) {
     tableData = tableData.sort((a, b) => moment(b.Week).valueOf() - moment(a.Week).valueOf());
 
     console.table(tableData);
+
+    // console.log(data);
+
+    // Prepare data for the summary statistics table
+    const summaryData = Object.entries(userNames).map((userName) => {
+        // console.log(userName);
+        const userEstimates = data.filter(row => row.User === userName).map(row => row.Estimate);
+        // console.log(userEstimates);
+
+        // Exclude zero estimates and sort in ascending order for calculations
+        const sortedEstimates = userEstimates.filter(e => e > 0).sort((a, b) => a - b);
+
+        const total = sortedEstimates.reduce((a, b) => a + b, 0);
+        const average = (total / sortedEstimates.length) || 0;
+        const median = sortedEstimates.length ? (sortedEstimates[(sortedEstimates.length - 1) >> 1] + sortedEstimates[sortedEstimates.length >> 1]) / 2 : 0;
+
+        return {
+            User: userName,
+            Lowest: sortedEstimates[0] || 0,
+            Median: median,
+            Average: average,
+            Highest: sortedEstimates[sortedEstimates.length - 1] || 0,
+        };
+    });
+
+    console.log('\nSummary Statistics:');
+    console.table(summaryData);
 }
 
 processUsersSequentially(userIds);
